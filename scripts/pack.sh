@@ -30,5 +30,5 @@ cp build/picolibc/lib/* "bundle/$TARGET_NAME/lib/vb"
 cp tools/libvb/* "bundle/$TARGET_NAME/lib/vb"
 mv bundle/$TARGET_NAME/lib/vb/*.h bundle/$TARGET_NAME/lib/vb/include
 
-cd bundle
-zip -r "devkitvb-$TARGET_NAME.zip" "$TARGET_NAME"
+cd "bundle/$TARGET_NAME"
+tar -czvf "../devkitvb-$TARGET_NAME.tar.xz" .
