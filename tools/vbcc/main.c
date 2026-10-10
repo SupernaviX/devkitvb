@@ -669,7 +669,7 @@ static int mainInternal(int argc, char **argv, char *base, size_t baseLength,
         }
         if (!noCrt0) {
             alAppendCombo(&argsCmd,
-                "--ld-path=", 10, base, baseLength, "clang/ld.lld" , 12);
+                "--ld-path=", 10, base, baseLength, "clang/bin/ld.lld", 16);
             alAppendCombo(&argsCmd,
                 "-T"        ,  2, base, baseLength, "lib/vb/vue.ld", 13);
         }
@@ -696,7 +696,7 @@ static int mainInternal(int argc, char **argv, char *base, size_t baseLength,
     }
 
     // Invoke command
-    cmd = alToCommand(&argsCmd, base, baseLength, "clang/v810-clang", 16);
+    cmd = alToCommand(&argsCmd, base, baseLength, "clang/bin/v810-clang", 20);
     alDispose(&argsCmd);
     if (preview) {
         printf("%s\n", cmd);
@@ -718,7 +718,7 @@ static int mainInternal(int argc, char **argv, char *base, size_t baseLength,
     alAppend(&argsCmd, "-O"    , 2);
     alAppend(&argsCmd, "binary", 6);
     alAppend(&argsCmd, outFilename, strlen(outFilename));
-    cmd = alToCommand(&argsCmd, base, baseLength, "clang/llvm-objcopy", 18);
+    cmd = alToCommand(&argsCmd, base, baseLength, "clang/bin/llvm-objcopy", 22);
     alDispose(&argsCmd);
     if (preview) {
         printf("%s\n", cmd);
