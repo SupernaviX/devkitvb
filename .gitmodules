@@ -1,0 +1,3 @@
+[submodule "tools/picolibc"]
+	path = tools/picolibc
+	url = https://github.com/SupernaviX/v810-picolibc.git
