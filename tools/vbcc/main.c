@@ -87,7 +87,7 @@ static char* osParentDir(char *path, size_t length, int backslash) {
 // Linux specific
 #ifdef __linux__
 
-#include <limits.h>
+#include <linux/limits.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
