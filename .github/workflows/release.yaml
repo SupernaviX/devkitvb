@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    if: github.repository == 'SupernaviX/devkitvb'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          submodules: true
+      - name: Clear Disk Space
+        run: ./scripts/clear-disk-space-linux.sh
+        shell: bash
+      - name: Build Bundles
+        run: ./scripts/bundle.sh
+        shell: bash
+      - id: getDate
+        name: Get Current Date
+        run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+        shell: bash
+      - name: Release
+        uses: softprops/action-gh-release@v3
+        with:
+          name: "${{ steps.getDate.outputs.TODAY }}"
+          tag_name: "devkitvb-${{ steps.getDate.outputs.TODAY }}"
+          target_commitish: ${{ github.sha }}
+          working_directory: bundle
+          files: devkitvb*
+          generate_release_notes: true
