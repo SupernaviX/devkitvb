@@ -242,7 +242,7 @@ class Options extends Map {
                 property = Option.HEAP_SIZE;
                 break;
 
-            // No stock crt0 or vue.ld
+            // No stock crt0 or vb.ld
             case "-vb-no-crt0":
                 property = Option.NO_CRT0;
                 break;

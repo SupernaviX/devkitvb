@@ -446,7 +446,7 @@ static int mainInternal(int argc, char **argv, char *base, size_t baseLength,
     int     isLinked       = 0;    // Performing the linker step
     int     isObjCopying   = 0;    // Performing the objcopy step
     char   *heapSize       = NULL; // libc heap size value
-    int     noCrt0         = 0;    // Not using provided crt0 and vue.ld
+    int     noCrt0         = 0;    // Not using provided crt0 and vb.ld
     int     noLTO          = 0;    // -fno-lto is present
     int     noStdInc       = 0;    // Not using standard includes
     int     noStdLib       = 0;    // Not using standard library
@@ -671,7 +671,7 @@ static int mainInternal(int argc, char **argv, char *base, size_t baseLength,
             alAppendCombo(&argsCmd,
                 "--ld-path=", 10, base, baseLength, "clang/bin/ld.lld", 16);
             alAppendCombo(&argsCmd,
-                "-T"        ,  2, base, baseLength, "lib/vb/vue.ld", 13);
+                "-T"        ,  2, base, baseLength, "lib/vb/vb.ld", 12);
         }
     }
 
