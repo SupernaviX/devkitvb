@@ -54,13 +54,6 @@ loop_start1:
 default_handler:
     reti
 
-    .section .rom_header,"a"
-    .ascii "hello, world        "   # Title
-    .byte  0x00,0x00,0x00,0x00,0x00 # Reserved
-    .ascii "  "                     # Maker
-    .ascii "VHWU"                   # Game
-    .byte  0x00                     # Version
-
 .macro VECTOR name
     .section .handlers.\name,"ax"
     jr \name

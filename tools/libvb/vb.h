@@ -289,7 +289,20 @@ typedef          VB_COL   VB_COLTBL[ 256];
 #define VB_SGN 0x0002
 #define VB_PWR 0x0001
 
+// ////////////////////////////// ROM Helpers ////////////////////////////// //
 
+#define VB_ROM_HEADER(title, makerCode, gameCode, version) \
+__asm__( \
+    ".section .rom_title,\"a\"\n" \
+    ".ascii \"" title "\"\n" \
+    ".section .rom_maker,\"a\"\n" \
+    ".ascii \"" makerCode "\"\n" \
+    ".section .rom_game,\"a\"\n" \
+    ".ascii \"" gameCode "\"\n" \
+    ".section .rom_version,\"a\"\n" \
+    ".byte " #version "\n" \
+    ".section .text" \
+)
 
 // ////////////////////////////// CPU Helpers ////////////////////////////// //
 

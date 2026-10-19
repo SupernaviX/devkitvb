@@ -81,8 +81,32 @@ SECTIONS
   __rom_size = MAX(1 << LOG2CEIL(__rom_used + 0x220), __min_rom_size);
   __rom_end  = ORIGIN(rom) + __rom_size;
 
-  .rom_header 0x07FFFDE0 : AT(__rom_end - 0x220) {
-    KEEP (*(.rom_header))
+  .rom_title 0x07FFFDE0: AT(__rom_end - 0x220) ALIGN(0) SUBALIGN(0) {
+      KEEP (*(.rom_title))
+      FILL (0x20202020) # pad with spaces
+      ASSERT (. <= 0x07FFFDF4, "ROM header title must be 20 characters or fewer");
+      . = 0x07FFFDF4;
+  } >rom
+
+  .rom_maker 0x07FFFDF9: AT(__rom_end - 0x207) ALIGN(0) SUBALIGN(0) {
+      KEEP (*(.rom_maker))
+      FILL (0x20202020) # pad with spaces
+      ASSERT (. <= 0x07FFFDFB, "ROM header maker code must be 2 characters or fewer");
+      . = 0x07FFFDFB;
+  } >rom
+  
+  .rom_game 0x07FFFDFB: AT(__rom_end - 0x205) ALIGN(0) SUBALIGN(0) {
+      KEEP (*(.rom_game))
+      FILL (0x20202020) # pad with spaces
+      ASSERT (. <= 0x07FFFDFF, "ROM header game code must be 4 characters or fewer");
+      . = 0x07FFFDFF;
+  } >rom
+  
+  .rom_version 0x07FFFDFF: AT(__rom_end - 0x201) ALIGN(0) SUBALIGN(0) {
+      KEEP (*(.rom_version))
+      #FILL (0x00000000) # pad with zeroes
+      #ASSERT (. <= 0x07FFFE00, "ROM header version must be 1 byte");
+      #. = 0x07FFFE00;
   } >rom
 
   .vectors 0x07FFFE00 : AT(__rom_end - 0x200) {
