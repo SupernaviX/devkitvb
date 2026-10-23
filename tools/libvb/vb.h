@@ -1,15 +1,27 @@
 #ifndef __VB_H__
 #define __VB_H__
 
+#ifndef __ASSEMBLER__
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include <stdint.h>
 
+#define VB_MEMORY(type, address) (*((type)address))
+
+#else
+
+#define VB_MEMORY(type, address) (address)
+
+#endif
+
 
 
 // ////////////////////////////////// VIP ////////////////////////////////// //
+
+#ifndef __ASSEMBLER__
 
 // Column table entry
 typedef struct VB_COL {
@@ -46,51 +58,53 @@ typedef volatile uint16_t VB_BGMAP [4096];
 typedef volatile uint8_t  VB_CHR   [  16];
 typedef          VB_COL   VB_COLTBL[ 256];
 
+#endif // __ASSEMBLER__
+
 // Memory ranges
-#define VB_FBL0   (*((volatile uint8_t (*)[0x6000])0x00000000))
-#define VB_CHRS0  (*((         VB_CHR  (*)[   512])0x00006000))
-#define VB_FBL1   (*((volatile uint8_t (*)[0x6000])0x00008000))
-#define VB_CHRS1  (*((         VB_CHR  (*)[   512])0x0000E000))
-#define VB_FBR0   (*((volatile uint8_t (*)[0x6000])0x00010000))
-#define VB_CHRS2  (*((         VB_CHR  (*)[   512])0x00016000))
-#define VB_FBR1   (*((volatile uint8_t (*)[0x6000])0x00018000))
-#define VB_CHRS3  (*((         VB_CHR  (*)[   512])0x0001E000))
-#define VB_BGS    (*((         VB_BGMAP(*)[    16])0x00020000))
-#define VB_WORLDS (*((         VB_WORLD(*)[    32])0x0003D800))
-#define VB_COLSL  (* (         VB_COLTBL*)         0x0003DC00 )
-#define VB_COLSR  (* (         VB_COLTBL*)         0x0003DE00 )
-#define VB_OBJS   (*((         VB_OBJ  (*)[  1024])0x0003E000))
-#define VB_CHRS   (*((         VB_CHR  (*)[  2048])0x00078000))
+#define VB_FBL0   VB_MEMORY(volatile uint8_t (*)[0x6000], 0x00000000)
+#define VB_CHRS0  VB_MEMORY(         VB_CHR  (*)[   512], 0x00006000)
+#define VB_FBL1   VB_MEMORY(volatile uint8_t (*)[0x6000], 0x00008000)
+#define VB_CHRS1  VB_MEMORY(         VB_CHR  (*)[   512], 0x0000E000)
+#define VB_FBR0   VB_MEMORY(volatile uint8_t (*)[0x6000], 0x00010000)
+#define VB_CHRS2  VB_MEMORY(         VB_CHR  (*)[   512], 0x00016000)
+#define VB_FBR1   VB_MEMORY(volatile uint8_t (*)[0x6000], 0x00018000)
+#define VB_CHRS3  VB_MEMORY(         VB_CHR  (*)[   512], 0x0001E000)
+#define VB_BGS    VB_MEMORY(         VB_BGMAP(*)[    16], 0x00020000)
+#define VB_WORLDS VB_MEMORY(         VB_WORLD(*)[    32], 0x0003D800)
+#define VB_COLSL  VB_MEMORY(         VB_COLTBL*         , 0x0003DC00)
+#define VB_COLSR  VB_MEMORY(         VB_COLTBL*         , 0x0003DE00)
+#define VB_OBJS   VB_MEMORY(         VB_OBJ  (*)[  1024], 0x0003E000)
+#define VB_CHRS   VB_MEMORY(         VB_CHR  (*)[  2048], 0x00078000)
 #define VB_OAM    VB_OBJS
 
 // I/O registers
-#define VB_INTPND (*(volatile uint16_t *)0x0005F800)
-#define VB_INTENB (*(volatile uint16_t *)0x0005F802)
-#define VB_INTCLR (*(volatile uint16_t *)0x0005F804)
-#define VB_DPSTTS (*(volatile uint16_t *)0x0005F820)
-#define VB_DPCTRL (*(volatile uint16_t *)0x0005F822)
-#define VB_BRTA   (*(volatile uint16_t *)0x0005F824)
-#define VB_BRTB   (*(volatile uint16_t *)0x0005F826)
-#define VB_BRTC   (*(volatile uint16_t *)0x0005F828)
-#define VB_REST   (*(volatile uint16_t *)0x0005F82A)
-#define VB_FRMCYC (*(volatile uint16_t *)0x0005F82E)
-#define VB_CTA    (*(volatile uint16_t *)0x0005F830)
-#define VB_XPSTTS (*(volatile uint16_t *)0x0005F840)
-#define VB_XPCTRL (*(volatile uint16_t *)0x0005F842)
-#define VB_VER    (*(volatile uint16_t *)0x0005F844)
-#define VB_SPT0   (*(volatile uint16_t *)0x0005F848)
-#define VB_SPT1   (*(volatile uint16_t *)0x0005F84A)
-#define VB_SPT2   (*(volatile uint16_t *)0x0005F84C)
-#define VB_SPT3   (*(volatile uint16_t *)0x0005F84E)
-#define VB_GPLT0  (*(volatile uint16_t *)0x0005F860)
-#define VB_GPLT1  (*(volatile uint16_t *)0x0005F862)
-#define VB_GPLT2  (*(volatile uint16_t *)0x0005F864)
-#define VB_GPLT3  (*(volatile uint16_t *)0x0005F866)
-#define VB_JPLT0  (*(volatile uint16_t *)0x0005F868)
-#define VB_JPLT1  (*(volatile uint16_t *)0x0005F86A)
-#define VB_JPLT2  (*(volatile uint16_t *)0x0005F86C)
-#define VB_JPLT3  (*(volatile uint16_t *)0x0005F86E)
-#define VB_BKCOL  (*(volatile uint16_t *)0x0005F870)
+#define VB_INTPND VB_MEMORY(volatile uint16_t *, 0x0005F800)
+#define VB_INTENB VB_MEMORY(volatile uint16_t *, 0x0005F802)
+#define VB_INTCLR VB_MEMORY(volatile uint16_t *, 0x0005F804)
+#define VB_DPSTTS VB_MEMORY(volatile uint16_t *, 0x0005F820)
+#define VB_DPCTRL VB_MEMORY(volatile uint16_t *, 0x0005F822)
+#define VB_BRTA   VB_MEMORY(volatile uint16_t *, 0x0005F824)
+#define VB_BRTB   VB_MEMORY(volatile uint16_t *, 0x0005F826)
+#define VB_BRTC   VB_MEMORY(volatile uint16_t *, 0x0005F828)
+#define VB_REST   VB_MEMORY(volatile uint16_t *, 0x0005F82A)
+#define VB_FRMCYC VB_MEMORY(volatile uint16_t *, 0x0005F82E)
+#define VB_CTA    VB_MEMORY(volatile uint16_t *, 0x0005F830)
+#define VB_XPSTTS VB_MEMORY(volatile uint16_t *, 0x0005F840)
+#define VB_XPCTRL VB_MEMORY(volatile uint16_t *, 0x0005F842)
+#define VB_VER    VB_MEMORY(volatile uint16_t *, 0x0005F844)
+#define VB_SPT0   VB_MEMORY(volatile uint16_t *, 0x0005F848)
+#define VB_SPT1   VB_MEMORY(volatile uint16_t *, 0x0005F84A)
+#define VB_SPT2   VB_MEMORY(volatile uint16_t *, 0x0005F84C)
+#define VB_SPT3   VB_MEMORY(volatile uint16_t *, 0x0005F84E)
+#define VB_GPLT0  VB_MEMORY(volatile uint16_t *, 0x0005F860)
+#define VB_GPLT1  VB_MEMORY(volatile uint16_t *, 0x0005F862)
+#define VB_GPLT2  VB_MEMORY(volatile uint16_t *, 0x0005F864)
+#define VB_GPLT3  VB_MEMORY(volatile uint16_t *, 0x0005F866)
+#define VB_JPLT0  VB_MEMORY(volatile uint16_t *, 0x0005F868)
+#define VB_JPLT1  VB_MEMORY(volatile uint16_t *, 0x0005F86A)
+#define VB_JPLT2  VB_MEMORY(volatile uint16_t *, 0x0005F86C)
+#define VB_JPLT3  VB_MEMORY(volatile uint16_t *, 0x0005F86E)
+#define VB_BKCOL  VB_MEMORY(volatile uint16_t *, 0x0005F870)
 
 // Macros
 #define VB_ATTRIBS(lon,ron,bgm,scx,scy,over,bgMapBase) \
@@ -150,62 +164,66 @@ typedef          VB_COL   VB_COLTBL[ 256];
 // ////////////////////////////////// VSU ////////////////////////////////// //
 
 // Memory ranges
-#define VB_WAVES (*(volatile uint32_t(*)[5][32])0x01000000)
-#define VB_MOD   (*(volatile int32_t (*)   [32])0x01000280)
-#define VB_WAVE1 (VB_WAVES[0])
-#define VB_WAVE2 (VB_WAVES[1])
-#define VB_WAVE3 (VB_WAVES[2])
-#define VB_WAVE4 (VB_WAVES[3])
-#define VB_WAVE5 (VB_WAVES[4])
+#define VB_WAVES VB_MEMORY(volatile uint32_t(*)[5][32], 0x01000000)
+#define VB_MOD   VB_MEMORY(volatile int32_t (*)   [32], 0x01000280)
+#define VB_WAVE1 VB_MEMORY(volatile uint32_t(*)   [32], 0x01000000)
+#define VB_WAVE2 VB_MEMORY(volatile uint32_t(*)   [32], 0x01000080)
+#define VB_WAVE3 VB_MEMORY(volatile uint32_t(*)   [32], 0x01000100)
+#define VB_WAVE4 VB_MEMORY(volatile uint32_t(*)   [32], 0x01000180)
+#define VB_WAVE5 VB_MEMORY(volatile uint32_t(*)   [32], 0x01000200)
+#ifndef __ASSEMBLER__
 #define VB_BYTE(memexpr) (*(uint8_t *)(memexpr))
+#endif
 
 // I/O registers
-#define VB_S1INT (*(volatile uint8_t *)0x01000400)
-#define VB_S1LRV (*(volatile uint8_t *)0x01000404)
-#define VB_S1FQL (*(volatile uint8_t *)0x01000408)
-#define VB_S1FQH (*(volatile uint8_t *)0x0100040C)
-#define VB_S1EV0 (*(volatile uint8_t *)0x01000410)
-#define VB_S1EV1 (*(volatile uint8_t *)0x01000414)
-#define VB_S1RAM (*(volatile uint8_t *)0x01000418)
-#define VB_S2INT (*(volatile uint8_t *)0x01000440)
-#define VB_S2LRV (*(volatile uint8_t *)0x01000444)
-#define VB_S2FQL (*(volatile uint8_t *)0x01000448)
-#define VB_S2FQH (*(volatile uint8_t *)0x0100044C)
-#define VB_S2EV0 (*(volatile uint8_t *)0x01000450)
-#define VB_S2EV1 (*(volatile uint8_t *)0x01000454)
-#define VB_S2RAM (*(volatile uint8_t *)0x01000458)
-#define VB_S3INT (*(volatile uint8_t *)0x01000480)
-#define VB_S3LRV (*(volatile uint8_t *)0x01000484)
-#define VB_S3FQL (*(volatile uint8_t *)0x01000488)
-#define VB_S3FQH (*(volatile uint8_t *)0x0100048C)
-#define VB_S3EV0 (*(volatile uint8_t *)0x01000490)
-#define VB_S3EV1 (*(volatile uint8_t *)0x01000494)
-#define VB_S3RAM (*(volatile uint8_t *)0x01000498)
-#define VB_S4INT (*(volatile uint8_t *)0x010004C0)
-#define VB_S4LRV (*(volatile uint8_t *)0x010004C4)
-#define VB_S4FQL (*(volatile uint8_t *)0x010004C8)
-#define VB_S4FQH (*(volatile uint8_t *)0x010004CC)
-#define VB_S4EV0 (*(volatile uint8_t *)0x010004D0)
-#define VB_S4EV1 (*(volatile uint8_t *)0x010004D4)
-#define VB_S4RAM (*(volatile uint8_t *)0x010004D8)
-#define VB_S5INT (*(volatile uint8_t *)0x01000500)
-#define VB_S5LRV (*(volatile uint8_t *)0x01000504)
-#define VB_S5FQL (*(volatile uint8_t *)0x01000508)
-#define VB_S5FQH (*(volatile uint8_t *)0x0100050C)
-#define VB_S5EV0 (*(volatile uint8_t *)0x01000510)
-#define VB_S5EV1 (*(volatile uint8_t *)0x01000514)
-#define VB_S5RAM (*(volatile uint8_t *)0x01000518)
-#define VB_S5SWP (*(volatile uint8_t *)0x0100051C)
-#define VB_S6INT (*(volatile uint8_t *)0x01000540)
-#define VB_S6LRV (*(volatile uint8_t *)0x01000544)
-#define VB_S6FQL (*(volatile uint8_t *)0x01000548)
-#define VB_S6FQH (*(volatile uint8_t *)0x0100054C)
-#define VB_S6EV0 (*(volatile uint8_t *)0x01000550)
-#define VB_S6EV1 (*(volatile uint8_t *)0x01000554)
-#define VB_SSTOP (*(volatile uint8_t *)0x01000580)
+#define VB_S1INT VB_MEMORY(volatile uint8_t *, 0x01000400)
+#define VB_S1LRV VB_MEMORY(volatile uint8_t *, 0x01000404)
+#define VB_S1FQL VB_MEMORY(volatile uint8_t *, 0x01000408)
+#define VB_S1FQH VB_MEMORY(volatile uint8_t *, 0x0100040C)
+#define VB_S1EV0 VB_MEMORY(volatile uint8_t *, 0x01000410)
+#define VB_S1EV1 VB_MEMORY(volatile uint8_t *, 0x01000414)
+#define VB_S1RAM VB_MEMORY(volatile uint8_t *, 0x01000418)
+#define VB_S2INT VB_MEMORY(volatile uint8_t *, 0x01000440)
+#define VB_S2LRV VB_MEMORY(volatile uint8_t *, 0x01000444)
+#define VB_S2FQL VB_MEMORY(volatile uint8_t *, 0x01000448)
+#define VB_S2FQH VB_MEMORY(volatile uint8_t *, 0x0100044C)
+#define VB_S2EV0 VB_MEMORY(volatile uint8_t *, 0x01000450)
+#define VB_S2EV1 VB_MEMORY(volatile uint8_t *, 0x01000454)
+#define VB_S2RAM VB_MEMORY(volatile uint8_t *, 0x01000458)
+#define VB_S3INT VB_MEMORY(volatile uint8_t *, 0x01000480)
+#define VB_S3LRV VB_MEMORY(volatile uint8_t *, 0x01000484)
+#define VB_S3FQL VB_MEMORY(volatile uint8_t *, 0x01000488)
+#define VB_S3FQH VB_MEMORY(volatile uint8_t *, 0x0100048C)
+#define VB_S3EV0 VB_MEMORY(volatile uint8_t *, 0x01000490)
+#define VB_S3EV1 VB_MEMORY(volatile uint8_t *, 0x01000494)
+#define VB_S3RAM VB_MEMORY(volatile uint8_t *, 0x01000498)
+#define VB_S4INT VB_MEMORY(volatile uint8_t *, 0x010004C0)
+#define VB_S4LRV VB_MEMORY(volatile uint8_t *, 0x010004C4)
+#define VB_S4FQL VB_MEMORY(volatile uint8_t *, 0x010004C8)
+#define VB_S4FQH VB_MEMORY(volatile uint8_t *, 0x010004CC)
+#define VB_S4EV0 VB_MEMORY(volatile uint8_t *, 0x010004D0)
+#define VB_S4EV1 VB_MEMORY(volatile uint8_t *, 0x010004D4)
+#define VB_S4RAM VB_MEMORY(volatile uint8_t *, 0x010004D8)
+#define VB_S5INT VB_MEMORY(volatile uint8_t *, 0x01000500)
+#define VB_S5LRV VB_MEMORY(volatile uint8_t *, 0x01000504)
+#define VB_S5FQL VB_MEMORY(volatile uint8_t *, 0x01000508)
+#define VB_S5FQH VB_MEMORY(volatile uint8_t *, 0x0100050C)
+#define VB_S5EV0 VB_MEMORY(volatile uint8_t *, 0x01000510)
+#define VB_S5EV1 VB_MEMORY(volatile uint8_t *, 0x01000514)
+#define VB_S5RAM VB_MEMORY(volatile uint8_t *, 0x01000518)
+#define VB_S5SWP VB_MEMORY(volatile uint8_t *, 0x0100051C)
+#define VB_S6INT VB_MEMORY(volatile uint8_t *, 0x01000540)
+#define VB_S6LRV VB_MEMORY(volatile uint8_t *, 0x01000544)
+#define VB_S6FQL VB_MEMORY(volatile uint8_t *, 0x01000548)
+#define VB_S6FQH VB_MEMORY(volatile uint8_t *, 0x0100054C)
+#define VB_S6EV0 VB_MEMORY(volatile uint8_t *, 0x01000550)
+#define VB_S6EV1 VB_MEMORY(volatile uint8_t *, 0x01000554)
+#define VB_SSTOP VB_MEMORY(volatile uint8_t *, 0x01000580)
 
 // Macros
+#ifndef __ASSEMBLER__
 #define VB_SAMPLE(mem,index,value) (*(uint8_t*)&(mem)[index]=(value))
+#endif
 #define VB_SxINT(enb,auto_,interval) \
     ((((enb)&1)<<7)|(((auto_)&1)<<5)|((interval)&31))
 #define VB_SxLRV(left,right) \
@@ -226,17 +244,17 @@ typedef          VB_COL   VB_COLTBL[ 256];
 // /////////////////////////// Miscellaneous I/O /////////////////////////// //
 
 // I/O registers
-#define VB_CCR  (*(volatile uint8_t *)0x02000000)
-#define VB_CCSR (*(volatile uint8_t *)0x02000004)
-#define VB_CDTR (*(volatile uint8_t *)0x02000008)
-#define VB_CDRR (*(volatile uint8_t *)0x0200000C)
-#define VB_SDLR (*(volatile uint8_t *)0x02000010)
-#define VB_SDHR (*(volatile uint8_t *)0x02000014)
-#define VB_TLR  (*(volatile uint8_t *)0x02000018)
-#define VB_THR  (*(volatile uint8_t *)0x0200001C)
-#define VB_TCR  (*(volatile uint8_t *)0x02000020)
-#define VB_WCR  (*(volatile uint8_t *)0x02000024)
-#define VB_SCR  (*(volatile uint8_t *)0x02000028)
+#define VB_CCR  VB_MEMORY(volatile uint8_t *, 0x02000000)
+#define VB_CCSR VB_MEMORY(volatile uint8_t *, 0x02000004)
+#define VB_CDTR VB_MEMORY(volatile uint8_t *, 0x02000008)
+#define VB_CDRR VB_MEMORY(volatile uint8_t *, 0x0200000C)
+#define VB_SDLR VB_MEMORY(volatile uint8_t *, 0x02000010)
+#define VB_SDHR VB_MEMORY(volatile uint8_t *, 0x02000014)
+#define VB_TLR  VB_MEMORY(volatile uint8_t *, 0x02000018)
+#define VB_THR  VB_MEMORY(volatile uint8_t *, 0x0200001C)
+#define VB_TCR  VB_MEMORY(volatile uint8_t *, 0x02000020)
+#define VB_WCR  VB_MEMORY(volatile uint8_t *, 0x02000024)
+#define VB_SCR  VB_MEMORY(volatile uint8_t *, 0x02000028)
 
 // CCR control/status
 #define VB_CINTINH 0x80
@@ -291,6 +309,8 @@ typedef          VB_COL   VB_COLTBL[ 256];
 
 // ////////////////////////////// ROM Helpers ////////////////////////////// //
 
+#ifndef __ASSEMBLER__
+
 #define VB_ROM_HEADER(title, makerCode, gameCode, version) \
 __asm__( \
     ".section .rom_title,\"a\"\n" \
@@ -304,7 +324,27 @@ __asm__( \
     ".section .text" \
 )
 
+#else
+
+.macro VB_ROM_HEADER title, makerCode, gameCode, version
+    .section .rom_title, "a"
+    .ascii   "\title"
+    .section .rom_maker, "a"
+    .ascii   "\makerCode"
+    .section .rom_game, "a"
+    .ascii   "\gameCode"
+    .section .rom_version, "a"
+    .byte    \version
+    .section .text
+.endm
+
+#endif
+
+
+
 // ////////////////////////////// CPU Helpers ////////////////////////////// //
+
+#ifndef __ASSEMBLER__
 
 // Instruction proxies
 extern void     _cli();
@@ -312,6 +352,11 @@ extern void     _halt();
 extern void     _ldsr(int id, uint32_t value);
 extern void     _sei();
 extern uint32_t _stsr(int id);
+
+// Interrupt service routine marker
+#define VB_IRQ __attribute__((interrupt)) void
+
+#endif
 
 // System register IDs
 #define VB_ADTRE 25
@@ -328,20 +373,21 @@ extern uint32_t _stsr(int id);
 // CHCW bits
 #define VB_ICE 0x00000002
 
-// Interrupt service routine marker
-#define VB_IRQ __attribute__((interrupt)) void
-
 
 
 // ///////////////////////////// API Commands ////////////////////////////// //
 
+#ifndef __ASSEMBLER__
+
 extern void     vbInitColumnTable();
 extern uint16_t vbReadGamePad();
-
-
 
 #ifdef __cplusplus
 }
 #endif
+
+#endif
+
+
 
 #endif // __VB_H__
