@@ -102,7 +102,13 @@ void vbInitColumnTable() {
 uint16_t vbReadGamePad() {
     VB_SCR = VB_PARASI;
     for (int x = 16; x > 0; x--) {
-        ASM("rev r0, r0");
+
+        // This delay accounts for anomalies in hardware sensitivity.
+        ASM(
+            "rev r0, r0\n"
+            "rev r0, r0"
+        );
+
         VB_SCR = VB_SOFTCK;
         VB_SCR = 0;
     }
