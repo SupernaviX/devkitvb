@@ -1,8 +1,9 @@
-name: Release
+name: Test
 
 on:
   push:
-    branches-ignore: []
+    branches-ignore:
+    - main
 
 jobs:
   test:
