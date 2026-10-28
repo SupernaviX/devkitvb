@@ -1,0 +1,4 @@
+Types: deb deb-src
+URIs: http://apt.llvm.org/noble/
+Suites: llvm-toolchain-noble-23
+Components: main

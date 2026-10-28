@@ -27,6 +27,11 @@ export PATH="$PATH:$(pwd)/build/bin"
 ./scripts/install-vbcc.sh "darwin" "build/darwin"
 ./scripts/install-vbcc.sh "linux" "build/linux"
 
+# build rust binaries for each target
+./scripts/install-rust-binaries.sh "windows" "build/windows"
+./scripts/install-rust-binaries.sh "darwin" "build/darwin"
+./scripts/install-rust-binaries.sh "linux" "build/linux"
+
 # install the remaining v810-llvms
 ./scripts/install-v810-llvm.sh "$LLVM_VERSION" windows build/windows
 ./scripts/install-v810-llvm.sh "$LLVM_VERSION" darwin build/darwin

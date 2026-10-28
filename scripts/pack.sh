@@ -22,6 +22,7 @@ mkdir -p "bundle/$TARGET_NAME"
 
 mkdir "bundle/$TARGET_NAME/bin"
 cp "build/$TARGET_NAME/vbcc$exeExt" "bundle/$TARGET_NAME/bin"
+cp "build/$TARGET_NAME/vbgfx$exeExt" "bundle/$TARGET_NAME/bin"
 cp -r "build/$TARGET_NAME/llvm-v810" "bundle/$TARGET_NAME/clang"
 mkdir "bundle/$TARGET_NAME/lib"
 mkdir "bundle/$TARGET_NAME/lib/vb"
