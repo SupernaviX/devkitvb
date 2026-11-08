@@ -19,6 +19,8 @@ jobs:
       - name: Clear Disk Space
         run: ./scripts/clear-disk-space-linux.sh
         shell: bash
+      - name: Set up working Docker
+        uses: docker/setup-docker-action@v5
       - name: Build Bundles
         run: ./scripts/bundle.sh
         shell: bash
