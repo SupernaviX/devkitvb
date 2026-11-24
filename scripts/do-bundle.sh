@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-LLVM_VERSION="2026-11-21"
+LLVM_VERSION="2026-11-24"
 
 rm -rf build
 mkdir build
